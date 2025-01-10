@@ -1,5 +1,6 @@
 from colorama import Fore, Style
 from ollama import Client
+from langchain_ollama import ChatOllama
 from . import AgentDetails, Agent, DEFAULT_HOST
 
 class ITZAMNAS:
