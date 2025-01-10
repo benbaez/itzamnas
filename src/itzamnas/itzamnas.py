@@ -8,6 +8,8 @@ class ITZAMNAS:
     Class representing an AI that can engage in a conversation with another AI.
     
         ai_details (AIDetails): Details of the AI including name and objective.
+
+        Ollama API Settings
         model_global (str): The global model used by the AI.
         system_prompt (str): The prompt for the AI conversation system.
         max_tokens (int): The maximum number of tokens to generate in the AI response.
@@ -15,6 +17,10 @@ class ITZAMNAS:
         extra_stops (list): Additional stop words to include in the AI response.
         exit_word (str): The exit word to use in the AI response. Defaults to "<DONE!>".
         max_exit_words (int): The maximum number of exit words to include in the AI responses for the conversation to conclude. Defaults to 2.
+        keep_alive (int): -1 to keep the model loaded in memory.
+        num_gpu (int): Number of layers of the model to offload to the GPU. If not set ollama will calcualte the 
+                       maximum number of layers that will fit on the GPU. 0, no layers will run on the GPU, 
+                       all inference is done by the CPU.
     """
     def __init__(
             self, 
@@ -27,7 +33,8 @@ class ITZAMNAS:
             exit_word: str = "<DONE!>",
             temperature: int = 0.7,
             max_exit_words: int = 2,
-            num_gpu: int = 1
+            keep_alive: int = -1,
+            # num_gpu: int = 1
         ) -> None:
         self.agent_details = agent_details
         self.model_global = model_global
@@ -36,6 +43,8 @@ class ITZAMNAS:
         self.num_context = num_context
         self.extra_stops = extra_stops
         self.temperature = temperature
+        self.keep_alive = keep_alive
+        # self.num_gpu = num_gpu
 
         self.messages = ""
         self.current_agent = agent_details[0]
