@@ -36,22 +36,16 @@ if __name__ == "__main__":
 
     sys_prompt = """
 You are a very intelligent AI Chatbot, and your name is {current_name}, Now
-You will be having a converstaion with Another AI called {other_name}, and it's also same as you.
+You will be having a converstaion with Another AI model named {other_name},
 {current_objective} And repeat "<DONE!>" ONLY if you both established and agreed that you came to the end of the discussion. 
 """.strip()
 
     agent1_name_default = "Zerkus"
-
     agent2_name_default = "Nina"
-
     objective_paradox = "Debate against the other AI on what came first, the chicken or the egg."
-
     agent1_objective_default = objective_paradox + " And you think the chicken came first."
-
     agent2_objective_default = objective_paradox + " And you think the egg came first."
-
     agent1_objective = input("Enter model 1 objective: ").strip() or agent1_objective_default
-
     agent2_objective = input("Enter model 2 objective: ").strip() or agent2_objective_default
 
     agent_details: AgentDetails = (
@@ -74,9 +68,7 @@ You will be having a converstaion with Another AI called {other_name}, and it's 
     )
 
     print("The system prompt template being used is: \n" + sys_prompt)
-
     print("Agent1 objective is: \n" + agent1_objective)
-
     print("Agent2 objective is: \n" + agent2_objective)
 
     itzamnas.start_conversation()
