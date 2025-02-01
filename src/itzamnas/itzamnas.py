@@ -139,6 +139,10 @@ class ITZAMNAS:
                 self.bot_say(text)
             else:
                 self.bot_say(text, Fore.BLUE)
+
+        # Set if this AI said DONE
+        if self.exit_word in text:
+            self.current_agent['done'] = True
         
         self.current_agent = self.get_opposite_ai()
         self.__show_cursor()
@@ -148,9 +152,8 @@ class ITZAMNAS:
         try:
             while True:
                 res = self.next_response(show_output=True)
-                if self.exit_word in res:
-                    self.exit_word_count += 1
-                if self.exit_word_count == self.max_exit_words:
+                other_ai = self.get_opposite_ai()
+                if self.current_agent['done'] and other_ai['done']:
                     print(Fore.RED + "The conversation was concluded..." + Style.RESET_ALL)
                     self.__show_cursor()
                     return

@@ -37,7 +37,7 @@ if __name__ == "__main__":
     sys_prompt = """
 You are a very intelligent AI Chatbot, and your name is {current_name}, Now
 You will be having a converstaion with Another AI model named {other_name},
-{current_objective} And repeat "<DONE!>" ONLY if you both established and agreed that you came to the end of the discussion. 
+{current_objective} And repeat "<DONE!>" ONLY after if you and the other AI established and agree that you came to the end of the discussion.
 """.strip()
 
     agent1_name_default = "Zerkus"
@@ -53,11 +53,13 @@ You will be having a converstaion with Another AI model named {other_name},
             "model": model_agent1,
             "name": agent1_name_default,
             "objective": agent1_objective,
+            'done': False,
         }, 
         {
             "model": model_agent2,
             "name": agent2_name_default,
             "objective": agent2_objective,
+            'done': False,
         }
     )
     itzamnas = ITZAMNAS(
