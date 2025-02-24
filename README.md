@@ -3,6 +3,9 @@ AI that collaborates with other AI
 
 Forked from TwoAI created by Fus3n on GitHUb.  Going to take original code in a completely different direction.
 
+##  Google Presentation
+https://docs.google.com/presentation/d/1LSTmVEutbStEQnW6_chnADENHm7b2OuCHLMiTVWhyTg/edit?usp=sharing
+
 ## Instal WSL (Ubuntu Linux)
 
 https://techcommunity.microsoft.com/discussions/windows11/how-to-install-the-linux-windows-subsystem-in-windows-11/2701207
@@ -58,6 +61,7 @@ ollama pull deepseek-r1
 ```
 git clone git@github.com:benbaez/itzamnas.git
 cd itzamnas
+git checkout tags/0.1
 pip install -r requirements.txt
 ```
 
