@@ -66,7 +66,7 @@ You will be having a converstaion with Another AI model named {other_name},
         model_global=BASE_MODEL, 
         agent_details=agent_details, 
         system_prompt=sys_prompt,
-
+        es_password='',
     )
 
     print("The system prompt template being used is: \n" + sys_prompt)

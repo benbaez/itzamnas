@@ -1,6 +1,10 @@
 from colorama import Fore, Style
 from ollama import Client
 from langchain_ollama import ChatOllama
+from elasticsearch import Elasticsearch
+from datetime import datetime
+import uuid
+import json
 from . import AgentDetails, Agent, DEFAULT_HOST
 
 class ITZAMNAS:
@@ -34,7 +38,12 @@ class ITZAMNAS:
             temperature: int = 0.7,
             max_exit_words: int = 2,
             keep_alive: int = -1,
-            # num_gpu: int = 1
+            # num_gpu: int = 1,
+            es_host = 'localhost',
+            es_port = 9200,
+            es_username = 'elastic',
+            es_password = '',
+            es_index_name = "conversations",
         ) -> None:
         self.agent_details = agent_details
         self.model_global = model_global
@@ -45,6 +54,23 @@ class ITZAMNAS:
         self.temperature = temperature
         self.keep_alive = keep_alive
         # self.num_gpu = num_gpu
+        self.es_host = es_host
+        self.es_port = es_port
+        self.es_username = es_username
+        self.es_password = es_password
+        self.es_index_name = es_index_name
+
+        self.es = Elasticsearch(
+            [
+                {
+                    'host':str(self.es_host),
+                    'port':int(self.es_port),
+                    'scheme': "https"
+                }
+            ],
+            basic_auth=(str(self.es_username), str(self.es_password)),
+            verify_certs=False
+        )
 
         self.messages = ""
         self.current_agent = agent_details[0]
