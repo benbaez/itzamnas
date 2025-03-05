@@ -43,7 +43,8 @@ class ITZAMNAS:
             es_port = 9200,
             es_username = 'elastic',
             es_password = '',
-            es_index_name = "conversations",
+            es_index_name_qa = "conversation_qa",
+            es_index_name_stream = "conversation_stream",
         ) -> None:
         self.agent_details = agent_details
         self.model_global = model_global
@@ -58,7 +59,8 @@ class ITZAMNAS:
         self.es_port = es_port
         self.es_username = es_username
         self.es_password = es_password
-        self.es_index_name = es_index_name
+        self.es_index_name_qa = es_index_name_qa
+        self.es_index_name_stream = es_index_name_stream
 
         self.es = Elasticsearch(
             [
@@ -72,12 +74,45 @@ class ITZAMNAS:
             verify_certs=False
         )
 
-        self.messages = ""
+        self.messages = ''
         self.current_agent = agent_details[0]
 
         self.exit_word = exit_word
         self.exit_word_count = 0
         self.max_exit_words = max_exit_words
+
+    def es_connection_check(self):
+        if self.es.ping():
+            print('Connected to Elasticsearch')
+        else:
+            print('Could not connect to Elasticsearch')
+            exit()
+
+    def es_index_create(self):
+        if not self.es.indices.exists(index=self.es_index_name_qa):
+            self.es.indices.create(index=self.es_index_name_qa)
+        if not self.es.indices.exists(index=self.es_index_name_stream):
+            self.es.indices.create(index=self.es_index_name_stream)
+
+    """Stores conversation data in Elasticsearch."""
+    def es_store_conversation_qa(self, bot_response, bot_response_current):
+        timestamp = datetime.now()
+        conversation_data = {
+            'timestamp': timestamp,
+            'bot_response': bot_response,
+            'bot_response_current': bot_response_current
+        }
+        self.es.index(index=self.es_index_name_qa, document=conversation_data)
+        self.es.indices.refresh(index=self.es_index_name_qa)
+
+    def es_store_conversation_stream(self, bot_response_current):
+        timestamp = datetime.now()
+        conversation_data = {
+            'timestamp': timestamp,
+            'bot_response_current': bot_response_current,
+        }
+        self.es.index(index=self.es_index_name_stream, document=conversation_data)
+        self.es.indices.refresh(index=self.es_index_name_stream)
 
     def bot_say(self, msg: str, color: str = Fore.LIGHTGREEN_EX):
         print(color + msg.strip() + "\t\t" + Style.RESET_ALL )
