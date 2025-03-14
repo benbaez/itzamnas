@@ -39,6 +39,7 @@ class ITZAMNAS:
             max_exit_words: int = 2,
             keep_alive: int = -1,
             # num_gpu: int = 1,
+            es_msg_save = False,
             es_host = 'localhost',
             es_port = 9200,
             es_username = 'elastic',
@@ -55,6 +56,7 @@ class ITZAMNAS:
         self.temperature = temperature
         self.keep_alive = keep_alive
         # self.num_gpu = num_gpu
+        self.es_msg_save = es_msg_save
         self.es_host = es_host
         self.es_port = es_port
         self.es_username = es_username
@@ -149,6 +151,12 @@ class ITZAMNAS:
         {self.messages}
         """
 
+        print( convo )
+
+        # Save to Elasticsearch if enabled, get convo for question element
+        if self.es_msg_save:
+            bot_response = convo
+
         current_model = self.current_agent['model']
         if model := self.current_agent.get('model', None):
             current_model = model
@@ -193,6 +201,14 @@ class ITZAMNAS:
         if not text.startswith(self.current_agent['name'] + ": "):
             text = self.current_agent['name'] + ": " + text
         self.messages += text + "\n"
+
+        print( self.messages )
+
+        # Save to Elasticsearch if enabled
+        if self.es_msg_save:
+            bot_response_current = text + "\n"
+            self.es_store_conversation_qa(bot_response, bot_response_current)
+            self.es_store_conversation_stream(self.messages)
 
         if show_output:
             print("\x1b[K", end="") # remove "thinking..." message
