@@ -1,5 +1,26 @@
 from itzamnas import ITZAMNAS, AgentDetails
 import sys
+import os
+import yaml
+
+script_directory = os.path.dirname(os.path.abspath(__file__))
+
+def load_variables_from_yaml(file_path):
+    with open(file_path, 'r') as file:
+        try:
+            data = yaml.safe_load(file)
+            return data
+        except yaml.YAMLError as e:
+            print(f"Error reading YAML file: {e}")
+            return None
+
+file_path = script_directory + '/config.yaml'
+variables = load_variables_from_yaml(file_path)
+
+if variables:
+    for key, value in variables.items():
+        print(f"{key}: {value}")
+
 
 '''
 A list of paradoxes given by a bot on Quora
@@ -40,8 +61,6 @@ You will be having a converstaion with Another AI model named {other_name},
 {current_objective} And repeat "<DONE!>" ONLY after if you and the other AI established and agree that you came to the end of the discussion.
 """.strip()
 
-    agent1_name_default = "Zerkus"
-    agent2_name_default = "Nina"
     objective_paradox = "Debate against the other AI on what came first, the chicken or the egg."
     agent1_objective_default = objective_paradox + " And you think the chicken came first."
     agent2_objective_default = objective_paradox + " And you think the egg came first."
@@ -51,13 +70,13 @@ You will be having a converstaion with Another AI model named {other_name},
     agent_details: AgentDetails = (
         {
             "model": model_agent1,
-            "name": agent1_name_default,
+            "name": variables['agent1_name_default'],
             "objective": agent1_objective,
             'done': False,
         }, 
         {
             "model": model_agent2,
-            "name": agent2_name_default,
+            "name": variables['agent2_name_default'],
             "objective": agent2_objective,
             'done': False,
         }
@@ -66,7 +85,8 @@ You will be having a converstaion with Another AI model named {other_name},
         model_global=BASE_MODEL, 
         agent_details=agent_details, 
         system_prompt=sys_prompt,
-        es_password='',
+        es_msg_save = variables['es_msg_save'],
+        es_password = variables['es_password'],
     )
 
     print("The system prompt template being used is: \n" + sys_prompt)
