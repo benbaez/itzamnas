@@ -1,0 +1,41 @@
+---
+
+- hosts: localhost
+  #remote_user: root
+
+  tasks:
+  - name: Creates es data directory
+    ansible.builtin.file:
+      path: /persist/data01
+      state: directory
+      owner: root
+      group: root
+      mode: 0775
+      recurse: yes
+
+  - name: Creates es config directory
+    ansible.builtin.file:
+      path: /persist/data01
+      state: directory
+      owner: root
+      group: root
+      mode: 0775
+      recurse: yes
+
+  - name: set docker-compose
+    template:
+      src: ./docker-compose.j2
+      dest: ./docker/docker-compose.yml
+
+  #- name: Create and start services
+  #  community.docker.docker_compose:
+  #    project_src: ./docker/
+  #    files:
+  #    - docker-compose.yml
+  #  register: output    
+
+  - name: Run container
+    become: True
+    shell:
+      cmd: "docker-compose -f docker-compose.yml up -d"
+      chdir: ./docker/

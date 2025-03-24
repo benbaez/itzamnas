@@ -1,0 +1,6 @@
+itzamnas:
+  hosts:
+    localhost:
+      es_port_master: 9200
+      es_port_data: 9300
+
