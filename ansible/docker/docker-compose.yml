@@ -1,22 +1,16 @@
 services:
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
     container_name: es-ai-singlenode
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - cluster.initial_master_nodes=es-ai-singlenode
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=false  
       - xpack.ml.use_auto_machine_memory_percent=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - /persist/es/data01:/usr/share/elasticsearch/data
+      - /persist/es01/data:/usr/share/elasticsearch/data
+      - /persist/es01/config:/usr/share/elasticsearch/config
     ports:
       - 9200:9200
       - 9300:9300

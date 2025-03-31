@@ -6,7 +6,7 @@
   tasks:
   - name: Creates es data directory
     ansible.builtin.file:
-      path: /persist/data01
+      path: /persist/es01/data
       state: directory
       owner: root
       group: root
@@ -15,7 +15,7 @@
 
   - name: Creates es config directory
     ansible.builtin.file:
-      path: /persist/data01
+      path: /persist/es01/config
       state: directory
       owner: root
       group: root
