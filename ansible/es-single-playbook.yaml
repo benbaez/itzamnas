@@ -26,7 +26,7 @@
       src: ./docker-compose.j2
       dest: ./docker/docker-compose.yml
 
-  - name: Run es01 container
+  - name: Run elasticssearch environment
     become: True
     shell:
       cmd: "docker-compose -f docker-compose.yml up -d"
