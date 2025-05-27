@@ -21,6 +21,15 @@
       mode: 0775
       recurse: yes
 
+  - name: Create cerebro conf directory
+    ansible.builtin.file:
+      path: /persist/cerebro/conf
+      state: directory
+      owner: root
+      owner: root
+      mode: 0775
+      recurse: yes
+
   - name: Copy docker-compose yml
     template:
       src: ./docker-compose.j2

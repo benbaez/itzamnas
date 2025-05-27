@@ -2,7 +2,7 @@ version: "3"
 services:
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
-    container_name: es-ai-singlenode
+    container_name: es01
     environment:
       - xpack.ml.use_auto_machine_memory_percent=true
     ulimits:
@@ -12,23 +12,12 @@ services:
     volumes:
       - /persist/es01/data:/usr/share/elasticsearch/data
       - /persist/es01/config:/usr/share/elasticsearch/config
-    ports:
-      - 9200:9200
-      - 9300:9300
-    networks:
-      - elastic
+    network_mode: "host"
 
   cerebro:
     image: ghcr.io/lmenezes/cerebro-docker:0@sha256:aa55013478b99dd0284905a28727dec7169e8bf15ff3ee33bd5e20790ffe1555
     platform: linux/arm64
     container_name: cerebro
-    ports:
-      - 9000:9000
-
-volumes:
-  data01:
-    driver: local
-
-networks:
-  elastic:
-    driver: bridge
+    volumes:
+      - /persist/cerebro/conf:/opt/cerebro/conf
+    network_mode: "host"
