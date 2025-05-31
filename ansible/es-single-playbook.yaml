@@ -26,7 +26,7 @@
       path: /persist/cerebro/conf
       state: directory
       owner: root
-      owner: root
+      group: root
       mode: 0775
       recurse: yes
 
