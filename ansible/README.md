@@ -15,7 +15,7 @@ sudo apt install ansible docker-compose
 
 ## Verify required ansible collections
 
-bbaez@frankenstein3090-01:/persist/bbaez/es$ ansible-galaxy collection list | grep docker
+$ ansible-galaxy collection list | grep docker
 community.docker                         3.7.0
 
 ## Run playbook
