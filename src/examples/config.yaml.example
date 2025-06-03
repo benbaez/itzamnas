@@ -4,3 +4,4 @@ objective_paradox: 'Debate against the other AI on what came first, the chicken 
 es_msg_save: False
 es_username: 'elastic'
 es_password: 'pAsSWorD'
+es_token: ''

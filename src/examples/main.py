@@ -3,24 +3,11 @@ import sys
 import os
 import yaml
 
+import common_func
+
 script_directory = os.path.dirname(os.path.abspath(__file__))
-
-def load_variables_from_yaml(file_path):
-    with open(file_path, 'r') as file:
-        try:
-            data = yaml.safe_load(file)
-            return data
-        except yaml.YAMLError as e:
-            print(f"Error reading YAML file: {e}")
-            return None
-
 file_path = script_directory + '/config.yaml'
-variables = load_variables_from_yaml(file_path)
-
-if variables:
-    for key, value in variables.items():
-        print(f"{key}: {value}")
-
+variables = common_func.load_variables_from_yaml(file_path)
 
 '''
 A list of paradoxes given by a bot on Quora
@@ -86,6 +73,7 @@ You will be having a converstaion with Another AI model named {other_name},
         agent_details=agent_details, 
         system_prompt=sys_prompt,
         es_msg_save = variables['es_msg_save'],
+        es_username = variables['es_username'],
         es_password = variables['es_password'],
     )
 

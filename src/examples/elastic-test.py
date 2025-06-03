@@ -14,7 +14,7 @@ variables = common_func.load_variables_from_yaml(file_path)
 # Connect to Elasticsearch
 es_host = 'localhost'
 es_port = 9200
-es_username = 'elastic'
+es_username = variables['es_username']
 es_password = variables['es_password']
 
 es = Elasticsearch(
