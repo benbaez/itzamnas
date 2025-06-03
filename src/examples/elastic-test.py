@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
 
+import os
 from elasticsearch import Elasticsearch
 from datetime import datetime
+
+import common_func
+
+script_directory = os.path.dirname(os.path.abspath(__file__))
+file_path = script_directory + '/config.yaml'
+variables = common_func.load_variables_from_yaml(file_path)
+
     
 # Connect to Elasticsearch
 es_host = 'localhost'
 es_port = 9200
 es_username = 'elastic'
-es_password = ''
+es_password = variables['es_password']
 
 es = Elasticsearch(
         [

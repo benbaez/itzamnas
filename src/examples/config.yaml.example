@@ -2,4 +2,5 @@ agent1_name_default: 'Zerkus'
 agent2_name_default: 'Nina'
 objective_paradox: 'Debate against the other AI on what came first, the chicken or the egg.'
 es_msg_save: False
+es_username: 'elastic'
 es_password: 'pAsSWorD'
