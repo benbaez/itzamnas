@@ -1,0 +1,2 @@
+export PYTHONPATH=$PYTHONPATH:$HOME/code/itzamnas/src
+export PATH=$HOME/python-ai/bin:$PATH
