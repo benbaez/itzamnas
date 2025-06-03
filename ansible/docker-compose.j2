@@ -10,8 +10,8 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /persist/es01/data:/usr/share/elasticsearch/data
-      - /persist/es01/config:/usr/share/elasticsearch/config
+      - {{ persist_path_prefix }}/persist/es01/data:/usr/share/elasticsearch/data
+      - {{ persist_path_prefix }}/persist/es01/config:/usr/share/elasticsearch/config
     network_mode: "host"
 
   cerebro:
@@ -19,5 +19,5 @@ services:
     platform: linux/arm64
     container_name: cerebro
     volumes:
-      - /persist/cerebro/conf:/opt/cerebro/conf
+      - {{ persist_path_prefix }}/persist/cerebro/conf:/opt/cerebro/conf
     network_mode: "host"

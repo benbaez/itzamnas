@@ -2,31 +2,36 @@
 
 - hosts: localhost
 
+  vars:
+    persist_path_prefix: "{{ lookup('env', 'HOME') }}"
+    dir_owner: "{{ lookup('env', 'USER') }}"
+    dir_group: staff
+
   tasks:
   - name: Create es01 data directory
     ansible.builtin.file:
-      path: /persist/es01/data
+      path: "{{ persist_path_prefix }}/persist/es01/data"
       state: directory
-      owner: root
-      group: root
+      owner: "{{ dir_owner }}"
+      group: "{{ dir_group }}"
       mode: 0775
       recurse: yes
 
   - name: Create es01 config directory
     ansible.builtin.file:
-      path: /persist/es01/config
+      path: "{{ persist_path_prefix }}/persist/es01/config"
       state: directory
-      owner: root
-      group: root
+      owner: "{{ dir_owner }}"
+      group: "{{ dir_group }}"
       mode: 0775
       recurse: yes
 
   - name: Create cerebro conf directory
     ansible.builtin.file:
-      path: /persist/cerebro/conf
+      path: "{{ persist_path_prefix }}/persist/cerebro/conf"
       state: directory
-      owner: root
-      group: root
+      owner: "{{ dir_owner }}"
+      group: "{{ dir_group }}"
       mode: 0775
       recurse: yes
 
@@ -35,8 +40,15 @@
       src: ./docker-compose.j2
       dest: ./docker/docker-compose.yml
 
-  - name: Run elasticssearch environment
+  - name: Run elasticssearch environment on Mac
+    shell:
+      cmd: "docker-compose -f docker-compose.yml up -d"
+      chdir: ./docker/
+    when: ansible_facts['os_family'] == "Darwin"
+
+  - name: Run elasticssearch environment on Ubuntu
     become: True
     shell:
       cmd: "docker-compose -f docker-compose.yml up -d"
       chdir: ./docker/
+    when: ansible_facts['os_family'] == "Debian"

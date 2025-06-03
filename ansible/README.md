@@ -1,4 +1,9 @@
 
+# On Macs, you do not need to sudo for docker commands.  On Linux that is default.  
+# See below to add yourself to docker group on Linux so sudo is not required.
+
+https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
+
 # If in python virtual env
 
 pip install docker-compose
