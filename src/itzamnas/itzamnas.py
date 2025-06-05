@@ -42,6 +42,7 @@ class ITZAMNAS:
             es_msg_save = False,
             es_host = 'localhost',
             es_port = 9200,
+            es_scheme = '',
             es_username = 'elastic',
             es_password = '',
             es_index_name_qa = "conversation_qa",
@@ -59,6 +60,7 @@ class ITZAMNAS:
         self.es_msg_save = es_msg_save
         self.es_host = es_host
         self.es_port = es_port
+        self.es_scheme = es_scheme
         self.es_username = es_username
         self.es_password = es_password
         self.es_index_name_qa = es_index_name_qa
@@ -69,7 +71,7 @@ class ITZAMNAS:
                 {
                     'host':str(self.es_host),
                     'port':int(self.es_port),
-                    'scheme': "https"
+                    'scheme': self.es_scheme
                 }
             ],
             basic_auth=(str(self.es_username), str(self.es_password)),

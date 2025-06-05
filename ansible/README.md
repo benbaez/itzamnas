@@ -4,6 +4,13 @@
 
 https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 
+# You must enable host networking on Macs if --net=host when using docker desktop
+Settings -> Resources -> Network -> Enable host networking
+
+# Cerebro https
+
+https://github.com/lmenezes/cerebro/issues/473
+
 # If in python virtual env
 
 pip install docker-compose

@@ -12,7 +12,9 @@ services:
     volumes:
       - {{ persist_path_prefix }}/persist/es01/data:/usr/share/elasticsearch/data
       - {{ persist_path_prefix }}/persist/es01/config:/usr/share/elasticsearch/config
-    network_mode: "host"
+    ports:
+      - 9200:9200
+      - 9300:9300
 
   cerebro:
     image: ghcr.io/lmenezes/cerebro-docker:0@sha256:aa55013478b99dd0284905a28727dec7169e8bf15ff3ee33bd5e20790ffe1555
@@ -20,4 +22,5 @@ services:
     container_name: cerebro
     volumes:
       - {{ persist_path_prefix }}/persist/cerebro/conf:/opt/cerebro/conf
-    network_mode: "host"
+    ports:
+      - 9000:9000

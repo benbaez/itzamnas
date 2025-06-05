@@ -22,7 +22,7 @@ es = Elasticsearch(
             {
                 'host':str(es_host), 
                 'port':int(es_port),
-                'scheme': "https"
+                'scheme': variables['es_scheme']
             }
         ],
         basic_auth=(str(es_username), str(es_password)),
