@@ -172,3 +172,4 @@ cython_debug/
 
 # Itzamnas
 itzamnas-env.sh
+elasticsearch.keystore
