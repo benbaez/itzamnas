@@ -14,5 +14,7 @@ cluster.routing.allocation.disk.threshold_enabled: 'true'
 cluster.routing.allocation.disk.watermark.low: 50%
 cluster.routing.allocation.disk.watermark.high: 70%
 xpack.security.enabled: 'false'
-discovery.seed_hosts:
-  - 127.0.0.1
+
+# Create a new cluster with the current node only
+# Additional nodes can still join the cluster later
+cluster.initial_master_nodes: ["e47736b7ad5b"]
