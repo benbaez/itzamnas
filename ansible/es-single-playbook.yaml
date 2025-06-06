@@ -6,8 +6,13 @@
     persist_path_prefix: "{{ lookup('env', 'HOME') }}"
     dir_owner: "{{ lookup('env', 'USER') }}"
     dir_group: staff
+    arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
 
   tasks:
+  - name: Set architecture specific variables
+    set_fact:
+      arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' or ansible_facts.architecture == 'arm64' else 'amd64' }}"
+
   - name: Create es01 data directory
     ansible.builtin.file:
       path: "{{ persist_path_prefix }}/persist/es01/data"
