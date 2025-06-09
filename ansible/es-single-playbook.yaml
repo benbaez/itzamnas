@@ -31,6 +31,15 @@
       mode: 0775
       recurse: yes
 
+  - name: Copy es01 config files
+    ansible.builtin.copy:
+      src: es01/config/
+      dest: "{{ persist_path_prefix }}/persist/es01/config/"
+      owner: "{{ dir_owner }}"
+      group: "{{ dir_group }}"
+      mode: '0644'
+      backup: yes
+
   - name: Create cerebro conf directory
     ansible.builtin.file:
       path: "{{ persist_path_prefix }}/persist/cerebro/conf"
@@ -39,6 +48,15 @@
       group: "{{ dir_group }}"
       mode: 0775
       recurse: yes
+
+  - name: Copy cerebro files
+    ansible.builtin.copy:
+      src: cerebro/conf/
+      dest: "{{ persist_path_prefix }}/persist/cerebro/conf/"
+      owner: "{{ dir_owner }}"
+      group: "{{ dir_group }}"
+      mode: '0644'
+      backup: yes
 
   - name: Copy docker-compose yml
     template:
