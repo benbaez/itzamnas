@@ -9,10 +9,6 @@ node.roles:
   - data
   - ingest
 
-cluster.routing.allocation.same_shard.host: 'true'
-cluster.routing.allocation.disk.threshold_enabled: 'true'
-cluster.routing.allocation.disk.watermark.low: 50%
-cluster.routing.allocation.disk.watermark.high: 70%
 xpack.security.enabled: 'false'
 
 # Create a new cluster with the current node only

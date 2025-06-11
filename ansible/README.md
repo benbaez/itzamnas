@@ -7,6 +7,25 @@ https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 # You must enable host networking on Macs if --net=host when using docker desktop
 Settings -> Resources -> Network -> Enable host networking
 
+# Adjust Docker Dkestop Settings -> Resources for disk, memory, cpu
+
+# Docker image maintenance
+
+```
+docker system df
+
+docker system prune -a
+```
+
+# Multi node shard balancing example config options
+
+```
+cluster.routing.allocation.same_shard.host: 'true'
+cluster.routing.allocation.disk.threshold_enabled: 'true'
+cluster.routing.allocation.disk.watermark.low: 50%
+cluster.routing.allocation.disk.watermark.high: 70%
+```
+
 # Cerebro https
 
 https://github.com/lmenezes/cerebro/issues/473
