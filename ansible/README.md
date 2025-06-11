@@ -30,6 +30,10 @@ sudo apt install ansible docker-compose
 $ ansible-galaxy collection list | grep docker
 community.docker                         3.7.0
 
+## Kibana manual run
+
+$ docker run -d --name kibana -p 5601:5601 kibana:9.0.2
+
 ## Run playbook
 
 ```
