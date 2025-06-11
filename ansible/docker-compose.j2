@@ -11,9 +11,7 @@ services:
     volumes:
       - {{ persist_path_prefix }}/persist/es01/data:/usr/share/elasticsearch/data
       - {{ persist_path_prefix }}/persist/es01/config:/usr/share/elasticsearch/config
-    ports:
-      - 9200:9200
-      - 9300:9300
+    network_mode: "host"
 
   cerebro:
 {% if arch == 'arm64' %}
@@ -26,13 +24,11 @@ services:
     container_name: cerebro
     volumes:
       - {{ persist_path_prefix }}/persist/cerebro/conf:/opt/cerebro/conf
-    ports:
-      - 9000:9000
+    network_mode: "host"
 
   kibana:
     image: kibana:9.0.2
     container_name: kibana
     volumes:
       - {{ persist_path_prefix }}/persist/kibana/config:/usr/share/kibana/config
-    ports:
-      - 5601:5601
+    network_mode: "host"

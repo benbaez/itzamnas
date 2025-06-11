@@ -58,3 +58,9 @@ $ docker run -d --name kibana -p 5601:5601 kibana:9.0.2
 ```
 sudo ansible-playbook --connection=local --inventory 127.0.0.1, es-single-playbook.yaml
 ```
+
+## Links
+
+http://localhost:5601/app/management/data/index_management/indices
+
+http://localhost:9000/#!/overview?host=http:%2F%2Flocalhost:9200
