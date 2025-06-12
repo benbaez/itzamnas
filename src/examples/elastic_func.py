@@ -77,7 +77,7 @@ def es_get_conv(es_index_name):
 """   """
 def es_search_for_conv(es_index_name, es_query={"match_all": {}}):
     try:
-        res = es.search(index="conversations_stream", body=es_query)
+        res = es.search(index=es_index_name, body=es_query)
         print(f"Got {res['hits']['total']['value']} hits:")
 
         return res
