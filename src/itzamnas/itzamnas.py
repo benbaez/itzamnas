@@ -75,6 +75,7 @@ class ITZAMNAS:
                 }
             ],
             basic_auth=(str(self.es_username), str(self.es_password)),
+            # api_key=("api_key_id", "api_key_secret")
             verify_certs=False
         )
 
@@ -92,11 +93,22 @@ class ITZAMNAS:
             print('Could not connect to Elasticsearch')
             exit()
 
+    """ We want to store a stream and qa for ML training"""
     def es_index_create(self):
         if not self.es.indices.exists(index=self.es_index_name_qa):
-            self.es.indices.create(index=self.es_index_name_qa)
+            try:
+                res = self.es.indices.create(index=self.es_index_name_qa)
+                print(f"QA index created with result: {res['result']}")
+            except Exception as e:
+                print(f"Error creating QA index: {e}")
+                exit()
         if not self.es.indices.exists(index=self.es_index_name_stream):
-            self.es.indices.create(index=self.es_index_name_stream)
+            try:
+                res = self.es.indices.create(index=self.es_index_name_stream)
+                print(f"Stream index created with result: {res['result']}")
+            except Exception as e:
+                print(f"Error creating stream index: {e}")
+                exit()
 
     """Stores conversation data in Elasticsearch."""
     def es_store_conversation_qa(self, bot_response, bot_response_current):
@@ -106,8 +118,12 @@ class ITZAMNAS:
             'bot_response': bot_response,
             'bot_response_current': bot_response_current
         }
-        self.es.index(index=self.es_index_name_qa, document=conversation_data)
-        self.es.indices.refresh(index=self.es_index_name_qa)
+        try:
+            res = self.es.index(index=self.es_index_name_qa, document=conversation_data)
+            self.es.indices.refresh(index=self.es_index_name_qa)
+            print(f"Document indexed with result: {res['result']}")
+        except Exception as e:
+            print(f"Error indexing document: {e}")
 
     def es_store_conversation_stream(self, bot_response_current):
         timestamp = datetime.now()
@@ -115,8 +131,11 @@ class ITZAMNAS:
             'timestamp': timestamp,
             'bot_response_current': bot_response_current,
         }
-        self.es.index(index=self.es_index_name_stream, document=conversation_data)
-        self.es.indices.refresh(index=self.es_index_name_stream)
+        try:
+            res = self.es.index(index=self.es_index_name_stream, document=conversation_data)
+            self.es.indices.refresh(index=self.es_index_name_stream)
+        except Exception as e:
+            print(f"Error indexing document: {e}")
 
     def bot_say(self, msg: str, color: str = Fore.LIGHTGREEN_EX):
         print(color + msg.strip() + "\t\t" + Style.RESET_ALL )
