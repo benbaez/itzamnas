@@ -5,54 +5,21 @@ from elasticsearch import Elasticsearch
 from datetime import datetime
 
 import common_func
+import elastic_func
 
 script_directory = os.path.dirname(os.path.abspath(__file__))
 file_path = script_directory + '/config.yaml'
 variables = common_func.load_variables_from_yaml(file_path)
 
     
-# Connect to Elasticsearch
-es_host = 'localhost'
-es_port = 9200
-es_username = variables['es_username']
-es_password = variables['es_password']
-
-es = Elasticsearch(
-        [
-            {
-                'host':str(es_host), 
-                'port':int(es_port),
-                'scheme': variables['es_scheme']
-            }
-        ],
-        basic_auth=(str(es_username), str(es_password)),
-        verify_certs=False
-)
-    
-# Check connection
-if es.ping():
-    print("Connected to Elasticsearch")
-else:
-    print("Could not connect to Elasticsearch")
-    exit()
+elastic_func.es_conn_check()
     
 # Define index name
-index_name = "conversations_stream"
-    
+es_index_name = "conversations_stream"
+
 # Create index if it doesn't exist
-if not es.indices.exists(index=index_name):
-    es.indices.create(index=index_name)
-    
-def store_conversation(user_input, bot_response):
-    """Stores conversation data in Elasticsearch."""
-    timestamp = datetime.now()
-    conversation_data = {
-        'timestamp': timestamp,
-        'user_input': user_input,
-        'bot_response': bot_response
-    }
-    es.index(index=index_name, document=conversation_data)
-    es.indices.refresh(index=index_name)
+elastic_func.es_index_create(es_index_name)
+
 
 def process_conversation_results(results):
     # Extract relevant data
@@ -70,8 +37,8 @@ def process_conversation_results(results):
         print(f"Variable 1: {variable1}, Variable 2: {variable2}")
 
 # Example usage
-store_conversation("Hello, how are you?", "I am doing well, thank you for asking.")
-store_conversation("What is the weather like today?", "The weather is sunny with a high of 25 degrees Celsius.")
+elastic_func.es_store_conv(es_index_name, "Hello, how are you?", "I am doing well, thank you for asking.")
+elastic_func.es_store_conv(es_index_name, "What is the weather like today?", "The weather is sunny with a high of 25 degrees Celsius.")
     
 print("Conversations stored successfully.")
 
@@ -84,7 +51,7 @@ query = {
 
 # Retrieve data
 try:
-    results = es.search(index=index_name, body=query)
+    results = elastic_func.es_search_for_conv(es_index_name, query)
 
     # Process and print results
     for hit in results['hits']['hits']:
