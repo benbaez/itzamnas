@@ -75,7 +75,14 @@ def es_get_conv(es_index_name):
         print(f"Error retrieving document: {e}")
 
 """   """
-def es_search_for_conv(es_index_name, es_query={"match_all": {}}):
+# Define the default index and query
+query = {
+    "query": {
+        "match_all": {} # Or any other query
+    }
+}
+
+def es_search_for_conv(es_index_name, es_query=query):
     try:
         res = es.search(index=es_index_name, body=es_query)
         print(f"Got {res['hits']['total']['value']} hits:")

@@ -7,6 +7,8 @@ import uuid
 import json
 from . import AgentDetails, Agent, DEFAULT_HOST
 
+import elastic_func
+
 class ITZAMNAS:
     """
     Class representing an AI that can engage in a conversation with another AI.
@@ -85,30 +87,6 @@ class ITZAMNAS:
         self.exit_word = exit_word
         self.exit_word_count = 0
         self.max_exit_words = max_exit_words
-
-    def es_connection_check(self):
-        if self.es.ping():
-            print('Connected to Elasticsearch')
-        else:
-            print('Could not connect to Elasticsearch')
-            exit()
-
-    """ We want to store a stream and qa for ML training"""
-    def es_index_create(self):
-        if not self.es.indices.exists(index=self.es_index_name_qa):
-            try:
-                res = self.es.indices.create(index=self.es_index_name_qa)
-                print(f"QA index created with result: {res['result']}")
-            except Exception as e:
-                print(f"Error creating QA index: {e}")
-                exit()
-        if not self.es.indices.exists(index=self.es_index_name_stream):
-            try:
-                res = self.es.indices.create(index=self.es_index_name_stream)
-                print(f"Stream index created with result: {res['result']}")
-            except Exception as e:
-                print(f"Error creating stream index: {e}")
-                exit()
 
     """Stores conversation data in Elasticsearch."""
     def es_store_conversation_qa(self, bot_response, bot_response_current):
@@ -247,6 +225,12 @@ class ITZAMNAS:
         return text
 
     def start_conversation(self):
+        if self.es_msg_save:
+            elastic_func.es_conn_check()
+            # Create index if it doesn't exist
+            elastic_func.es_index_create(self.es_index_name_qa)
+            elastic_func.es_index_create(self.es_index_name_stream)
+
         try:
             while True:
                 res = self.next_response(show_output=True)
