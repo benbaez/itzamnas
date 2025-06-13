@@ -65,6 +65,12 @@ git checkout tags/0.1
 pip install -r requirements.txt
 ```
 
+## Elasticsearch
+
+```
+$ sudo apt install python3-elasticsearch
+```
+
 ## Test run
 
 ```

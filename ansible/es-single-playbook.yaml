@@ -5,13 +5,17 @@
   vars:
     persist_path_prefix: "{{ lookup('env', 'HOME') }}"
     dir_owner: "{{ lookup('env', 'USER') }}"
-    dir_group: staff
-    arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' else 'amd64' }}"
+    dir_group: "{{ dir_owner }}"
 
   tasks:
   - name: Set architecture specific variables
     set_fact:
       arch: "{{ 'arm64' if ansible_facts.architecture == 'aarch64' or ansible_facts.architecture == 'arm64' else 'amd64' }}"
+
+  - name: Set user group variable when MacOS
+    set_fact:
+      dir_group: "staff"
+    when: ansible_os_family == "Darwin"
 
   - name: Create es01 data directory
     ansible.builtin.file:

@@ -1,13 +1,23 @@
 
 # On Macs, you do not need to sudo for docker commands.  On Linux that is default.  
+
 # See below to add yourself to docker group on Linux so sudo is not required.
 
 https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 
-# You must enable host networking on Macs if --net=host when using docker desktop
+```
+ sudo groupadd docker
+
+ sudo groupadd docker
+
+ newgrp docker
+```
+
+# You must enable host networking on Windows and Macs if --net=host when using docker desktop
+
 Settings -> Resources -> Network -> Enable host networking
 
-# Adjust Docker Dkestop Settings -> Resources for disk, memory, cpu
+# Adjust Docker Desktop Settings -> Resources for disk, memory, cpu
 
 # Docker image maintenance
 
