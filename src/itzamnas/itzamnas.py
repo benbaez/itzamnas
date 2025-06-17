@@ -97,9 +97,7 @@ class ITZAMNAS:
             'bot_response_current': bot_response_current
         }
         try:
-            res = self.es.index(index=self.es_index_name_qa, document=conversation_data)
-            self.es.indices.refresh(index=self.es_index_name_qa)
-            print(f"Document indexed with result: {res['result']}")
+            res = elastic_func.es_store_conv(self.es_index_name_qa, conversation_data)
         except Exception as e:
             print(f"Error indexing document: {e}")
 
@@ -110,8 +108,7 @@ class ITZAMNAS:
             'bot_response_current': bot_response_current,
         }
         try:
-            res = self.es.index(index=self.es_index_name_stream, document=conversation_data)
-            self.es.indices.refresh(index=self.es_index_name_stream)
+            res = elastic_func.es_store_conv(self.es_index_name_stream, conversation_data)
         except Exception as e:
             print(f"Error indexing document: {e}")
 
