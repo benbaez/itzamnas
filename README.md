@@ -61,7 +61,7 @@ ollama pull deepseek-r1
 ```
 git clone git@github.com:benbaez/itzamnas.git
 cd itzamnas
-git checkout tags/0.1
+git checkout tags/0.3
 pip install -r requirements.txt
 ```
 
