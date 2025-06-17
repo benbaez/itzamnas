@@ -10,8 +10,8 @@ import elastic_func
 script_directory = os.path.dirname(os.path.abspath(__file__))
 file_path = script_directory + '/config.yaml'
 variables = common_func.load_variables_from_yaml(file_path)
+store_examples = True
 
-    
 elastic_func.es_conn_check()
     
 # Define index name
@@ -37,10 +37,30 @@ def process_conversation_results(results):
         print(f"Variable 1: {variable1}, Variable 2: {variable2}")
 
 # Example usage
-elastic_func.es_store_conv(es_index_name, "Hello, how are you?", "I am doing well, thank you for asking.")
-elastic_func.es_store_conv(es_index_name, "What is the weather like today?", "The weather is sunny with a high of 25 degrees Celsius.")
-    
-print("Conversations stored successfully.")
+if store_examples:
+    try:
+        timestamp = datetime.now()
+        conversation_data = {
+            'timestamp': timestamp,
+            'user_input': "Hello, how are you?",
+            'bot_response_current': "I am doing well, thank you for asking."
+        }
+        elastic_func.es_store_conv(es_index_name, conversation_data)
+        print("Conversations stored successfully.")
+    except Exception as e:
+        print(f"Error indexing document: {e}")
+
+    try:
+        timestamp = datetime.now()
+        conversation_data = {
+            'timestamp': timestamp,
+            'user_input': "What is the weather like today?",
+            'bot_response_current': "The weather is sunny with a high of 25 degrees Celsius."
+        }
+        elastic_func.es_store_conv(es_index_name, conversation_data)
+        print("Conversations stored successfully.")
+    except Exception as e:
+            print(f"Error indexing document: {e}")
 
 # Define the index and query
 query = {

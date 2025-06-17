@@ -43,22 +43,20 @@ def es_index_create(es_index_name):
         try:
             res = es.indices.create(es_index_name)
             print(f"Index created with result: {res['result']}")
+
+            return res
         except Exception as e:
             print(f"Error creating Index: {e}")
             exit()
 
 """ Stores conversation data in Elasticsearch."""
-def es_store_conv(es_index_name, bot_response, bot_response_current):
-    timestamp = datetime.now()
-    conversation_data = {
-        'timestamp': timestamp,
-        'bot_response': bot_response,
-        'bot_response_current': bot_response_current
-    }
+def es_store_conv(es_index_name, document):
     try:
-        res = es.index(index=es_index_name, document=conversation_data)
+        res = es.index(index=es_index_name, document=document)
         es.indices.refresh(index=es_index_name)
         print(f"Document indexed with result: {res['result']}")
+
+        return res
     except Exception as e:
         print(f"Error indexing document: {e}")
 
@@ -68,6 +66,7 @@ def es_get_conv(es_index_name):
         res = es.get(index=es_index_name, id=1)
         if res['found']:
            print(f"Document found: {res['_source']}")
+
            return res
         else:
            print("Document not found")
