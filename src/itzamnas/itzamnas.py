@@ -60,26 +60,8 @@ class ITZAMNAS:
         self.keep_alive = keep_alive
         # self.num_gpu = num_gpu
         self.es_msg_save = es_msg_save
-        self.es_host = es_host
-        self.es_port = es_port
-        self.es_scheme = es_scheme
-        self.es_username = es_username
-        self.es_password = es_password
         self.es_index_name_qa = es_index_name_qa
         self.es_index_name_stream = es_index_name_stream
-
-        self.es = Elasticsearch(
-            [
-                {
-                    'host':str(self.es_host),
-                    'port':int(self.es_port),
-                    'scheme': self.es_scheme
-                }
-            ],
-            basic_auth=(str(self.es_username), str(self.es_password)),
-            # api_key=("api_key_id", "api_key_secret")
-            verify_certs=False
-        )
 
         self.messages = ''
         self.current_agent = agent_details[0]
